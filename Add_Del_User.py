@@ -11,6 +11,7 @@ from selenium.webdriver.common.keys import Keys
 #from webdriver_manager.chrome import ChromeDriverManager
 
 print(" NOTE:-----Captcha code should not enabled on gateway-----:)")
+IP=input("Enter your gateway IP")
 Name=input(" Please Enter your name-")
 print(" Hi,",Name,":), I am Adi,here to assist you\n","Please select an option as given below..")
 userinput = int(input(" To add user , press 1.\n To delete user from user management, Press 2.\n To create duplicate of VIA Setting Default template, Press 3."))
@@ -26,7 +27,7 @@ driver=webdriver.Chrome() #to launch/invoke chrome browser.__not for all time.
 driver.maximize_window()
 time.sleep(2)
 
-driver.get("https://172.30.92.111/viaIndex/index") #url_open_in_browser
+driver.get("https://"+IP+"/viaIndex/index") #url_open_in_browser
 #P1_Security_page
 Adv=driver.find_element(By.ID,"details-button").click()                                                           #for Advance(Adv) button
 time.sleep(2)
@@ -77,19 +78,22 @@ if userinput==1:
 
     #print("Congratulation..", count, "users succesfully added")
 elif userinput==2:
-    num = int(input("How many user you want delete?,Please Enter int number: "))
-    print("Adding", num, "users is inprogress......\n It'll take sometime..,Please wait..")
-    driver.find_element(By.CSS_SELECTOR,"body > section:nth-child(47) > section:nth-child(4) > section:nth-child(1) > aside:nth-child(1) > section:nth-child(1) > section:nth-child(1) > div:nth-child(1) > div:nth-child(1) > nav:nth-child(1) > ul:nth-child(1) > li:nth-child(2) > a:nth-child(1) > span:nth-child(1)").click()  # Click on User management
+    #num=int(input("How many user you want delete?,Please Enter int number: "))
+    num=100
+    time.sleep(2)
+    print("Deleting", num, "users is inprogress......\n It'll take sometime..,Please wait..")
+    driver.find_element(By.CSS_SELECTOR,"#nav > section > section > div > nav > ul > li:nth-child(7) > a > span").click()  # Click on User management
     time.sleep(3)
 
     for i in range(0,num):
 
         count=i
-        driver.find_element(By.CSS_SELECTOR,value="body > section:nth-child(47) > section:nth-child(4) > section:nth-child(1) > section:nth-child(2) > section:nth-child(2) > section:nth-child(1) > section:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(4) > a:nth-child(1) > img:nth-child(1)").click()
+        driver.find_element(By.CSS_SELECTOR,"#content > section > section > section > div > div > div.m-l-xl > table > tbody:nth-child(2) > tr > td:nth-child(4) > a > span > img.display-block").click()
         time.sleep(2)
         driver.switch_to.alert.accept()
         time.sleep(2)
     print("Congratulation..",count,"user deleted successfully..")
+
 #VIA_SETTINGS.
 elif userinput==3:
     driver.find_element(By.CLASS_NAME, value="pull-right").Click()
