@@ -8,10 +8,23 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
+
+import ipaddress, sys
 #from webdriver_manager.chrome import ChromeDriverManager
 
 print(" NOTE:-----Captcha code should not enabled on gateway-----:)")
 IP=input("Enter your gateway IP")
+
+#validation for IP Address
+try:
+    ipaddress.ip_address(IP)
+    print("valid IP address")
+except:
+    print("Invalid IP Address")
+    print("oops, Restart program")
+    sys.exit()
+
+
 Name=input(" Please Enter your name-")
 print(" Hi,",Name,":), I am Adi,here to assist you\n","Please select an option as given below..")
 userinput = int(input(" To add user , press 1.\n To delete user from user management, Press 2.\n To create duplicate of VIA Setting Default template, Press 3."))
@@ -42,7 +55,9 @@ time.sleep(2)
 
 #P3_Login_Page
 driver.find_element(By.ID,"login_name").send_keys("su")                                                           #enter user ID
-driver.find_element(By.ID,"login_password").send_keys("supass")                                                   #Enter user password
+driver.find_element(By.ID,"login_password").send_keys("supass")
+#Enter user password
+
 driver.find_element(By.NAME,"submit").click()                                                                     #Click on Submit button
 
 time.sleep(5)
