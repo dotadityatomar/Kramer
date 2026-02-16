@@ -8,6 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
 
 import ipaddress, sys
 #from webdriver_manager.chrome import ChromeDriverManager
@@ -57,8 +58,16 @@ time.sleep(2)
 driver.find_element(By.ID,"login_name").send_keys("su")                                                           #enter user ID
 driver.find_element(By.ID,"login_password").send_keys("supass")
 #Enter user password
+#Handling Captcha validation
+captcha_field=driver.find_element(By.ID,value="captchInput")
+if captcha_field:
+    print("Captcha Code found ❌ sorry we are stopping automation.")
+    sys.exit()
+else:
+    print("Captcah not found")
 
-driver.find_element(By.NAME,"submit").click()                                                                     #Click on Submit button
+
+driver.find_element(By.NAME,"submit").click()  #Click on Submit button
 
 time.sleep(5)
 #p4_Dashboard_Page
