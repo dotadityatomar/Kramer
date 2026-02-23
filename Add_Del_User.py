@@ -1,15 +1,15 @@
 
 import time
-from itertools import count
+from itertools import count                                             #Creates an infinite counter: for i in count(1): ... Useful if you want to loop until a condition is met without worrying about a fixed range.
 
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.options import Options                   #Run in headless mode (no GUI),2.Disable popups/notifications, 3. Set download folder or user agent
+from selenium.webdriver.common.by import By                             #Allows locating elements on a page.
+from selenium import webdriver                                          #Main Selenium module. Provides browser drivers (Chrome, Firefox, Edge, etc.)
+from selenium.webdriver.chrome.service import Service                   #Used to define the ChromeDriver service explicitly. Especially useful in newer Selenium versions where passing executable_path is deprecated.
+from selenium.webdriver.support.ui import Select                        #Interact with <select> dropdowns
+from selenium.webdriver.common.keys import Keys                         #Simulate keyboard inputs.
+from selenium.webdriver.support import expected_conditions as EC        #Provides conditions for explicit waits. Avoids time.sleep() by waiting only as long as necessary.
+from selenium.common.exceptions import NoSuchElementException           #Catch exceptions when elements are not found. Prevents script crashes when an element is missing.
 
 import ipaddress, sys
 #from webdriver_manager.chrome import ChromeDriverManager
