@@ -9,6 +9,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 
 import ipaddress, sys
 #from webdriver_manager.chrome import ChromeDriverManager
@@ -49,27 +50,31 @@ time.sleep(2)
 #driver.find_element(By.ID,value="details-button").click()
 pro=driver.find_element(By.ID,"proceed-link").click()                                                             #click on Proceed to 172.30## (unsafe)
 
+#------------------------------
 #P2_Welcome_TO_VIA
+
 print(driver.find_element(By.CSS_SELECTOR,".text-light.align-middle").text)                                       #print page title
 ManageGatewaySettings=driver.find_element(By.CLASS_NAME,"manageSettingCss").click()                               #to click on manage gateway settings
 time.sleep(2)
 
+#------------------------------
 #P3_Login_Page
 driver.find_element(By.ID,"login_name").send_keys("su")                                                           #enter user ID
-driver.find_element(By.ID,"login_password").send_keys("supass")
-#Enter user password
+driver.find_element(By.ID,"login_password").send_keys("supass") #Enter user password
+
+#------------------------------
 #Handling Captcha validation
-captcha_field=driver.find_element(By.ID,value="captchInput")
-if captcha_field:
+
+try:
+    captcha_field=driver.find_element(By.ID,"captchInput") #Captcha Filed
     print("Captcha Code found ❌ sorry we are stopping automation.")
-    sys.exit()
-else:
+    sys.exit() #If captcha enabled, Stop the code & close the browser
+
+except NoSuchElementException: #When Captcha is disabled.
     print("Captcah not found")
+    driver.find_element(By.NAME, "submit").click()  # Click on Submit button
+time.sleep(3)
 
-
-driver.find_element(By.NAME,"submit").click()  #Click on Submit button
-
-time.sleep(5)
 #p4_Dashboard_Page
 driver.execute_script("window.scrollBy(0, -500);")
 
