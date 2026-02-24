@@ -2,6 +2,7 @@
 import time
 from itertools import count                                             #Creates an infinite counter: for i in count(1): ... Useful if you want to loop until a condition is met without worrying about a fixed range.
 
+from pycparser.c_ast import While
 from selenium.webdriver.chrome.options import Options                   #Run in headless mode (no GUI),2.Disable popups/notifications, 3. Set download folder or user agent
 from selenium.webdriver.common.by import By                             #Allows locating elements on a page.
 from selenium import webdriver                                          #Main Selenium module. Provides browser drivers (Chrome, Firefox, Edge, etc.)
@@ -12,10 +13,14 @@ from selenium.webdriver.support import expected_conditions as EC        #Provide
 from selenium.common.exceptions import NoSuchElementException           #Catch exceptions when elements are not found. Prevents script crashes when an element is missing.
 
 import ipaddress, sys
+#from openpyxl import load_workbook
+
+#import XLUtilsDef
+#from pandas import XLUtilsDef
 #from webdriver_manager.chrome import ChromeDriverManager
 
 print(" NOTE:-----Captcha code should not enabled on gateway-----:)")
-IP=input("Enter your gateway IP")
+IP=input("Enter your gateway IP : ")
 
 #validation for IP Address
 try:
@@ -81,12 +86,36 @@ driver.execute_script("window.scrollBy(0, -500);")
 if userinput==1:
     #num = int(input("How many user you want add?,Please Enter int number: "))
     num=100
+    #rows=10
     time.sleep(5)
     print("Adding", num, "users is inprogress......\n It'll take sometime..,Please wait..")
 
     driver.find_element(By.CSS_SELECTOR,"#nav > section > section > div > nav > ul > li:nth-child(7) > a > span").click()  # Click on User management
     #driver.find_element(By.XPATH,"driver.find_element(By.XPATH, "/html/body/section/section/section/aside/section/section/div/nav/ul/li[7]/a")
     time.sleep(3)
+    #Read data from excel
+    """path = "D:\\Book1.xlsx"
+    time.sleep(1)
+    rows = XLUtilsDef.getRowCount(path, 'Sheet1')
+    for r in range(2, rows + 1):
+        username = XLUtilsDef.readData(path, "Sheet1", r, 1)
+        password = XLUtilsDef.readData(path, "Sheet1", r, 2)
+        driver.find_element(By.CSS_SELECTOR,"#content > section > section > div.heading > h3 > span > button").click()  # click on Add user
+        time.sleep(2)
+        # Enter name,password & checked Web admin
+        driver.find_element(By.ID, "txtUserId").send_keys(username)  # enter user name
+        driver.find_element(By.ID, "txtPassword").send_keys(password)  # enterpassword
+        driver.find_element(By.ID, "txtConfirmPassword").send_keys(password)  # enter confirm password
+        time.sleep(2)
+        driver.find_element(By.ID,"chkAdministrator").is_selected()  # to know webadminstration checke box is checked or not
+        driver.find_element(By.ID, "chkAdministrator").click()  # to checked the check box of webadminstration
+        # print(driver.find_element(By.ID,"chkAdministrator").is_selected()) #to know webadminstration checke box is checked or not
+        # print(driver.find_element(By.XPATH,"//button[@id='adduserbtn']").text) #to print text of button
+        driver.find_element(By.ID, "adduserbtn").click()  # to click on SAVE button
+        time.sleep(2)
+        XLUtilsDef.writeData(path, "Sheet1", r, 3, "Added/Web Administrator/Moderator")  # write data in excel sheet.
+        time.sleep(2)
+    print("Moderator users are added in gateway from excel")"""
 
     for i in range(1, num + 1):
         driver.find_element(By.CSS_SELECTOR,"#content > section > section > div.heading > h3 > span > button").click()  # click on Add user
@@ -97,13 +126,21 @@ if userinput==1:
         driver.find_element(By.ID, "txtConfirmPassword").send_keys("1234")  # enter confirm password
         # driver.find_element(By.ID,"adduserbtn").click()
         time.sleep(3)
-        driver.find_element(By.ID, "chkAdministrator").click()  # to checked the check box of webadminstration
+
+        if i % 2==0:
+            driver.find_element(By.ID, "chkAdministrator").click()  # to checked the check box of webadminstration
+        else:
+
+            driver.find_element(By.ID, "dss").click()  # to checked the check box of DSS
+
+
         # print(driver.find_element(By.ID,"chkAdministrator").is_selected())  # to know webadminstration checke box is checked or not
         # print(driver.find_element(By.XPATH, "//button[@id='adduserbtn']").text)  # to print text of button
         driver.find_element(By.XPATH, "//button[@id='adduserbtn']").click()  # to click on SAVE button
         time.sleep(3)
         count=i #save the user count
     print(count, "user Added successfully..") #print the user count
+
 
     #print("Congratulation..", count, "users succesfully added")
 elif userinput==2:
